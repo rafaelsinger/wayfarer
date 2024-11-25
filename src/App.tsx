@@ -1,8 +1,14 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Globe from 'react-globe.gl'
+import Landing from './components/Landing'
 import countriesGeoJson from './data/countries'
 import './App.css'
 
-function App() {
+// Skeleton components
+const Login = () => <div>Login Page</div>
+const Register = () => <div>Register Page</div>
+
+const Home = () => {
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <Globe
@@ -14,6 +20,19 @@ function App() {
         polygonStrokeColor={() => '#111'}
       />
     </div>
+  )
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/globe" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </Router>
   )
 }
 
