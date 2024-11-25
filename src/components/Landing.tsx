@@ -57,15 +57,12 @@ const Landing = () => {
                 height={600}
                 globeImageUrl="//unpkg.com/three-globe/example/img/earth-day.jpg"
                 polygonsData={countriesGeoJson.features}
-                // polygonAltitude={0.01}
-                polygonAltitude={d => d === hoverD ? 0.12 : 0.06}
-                polygonCapColor={d => d === hoverD ? 'steelblue' : 'rgba(255, 255, 255, 0.15))'}
-                // polygonCapColor={() => 'rgba(255, 255, 255, 0.15)'}  // More subtle top color
-                polygonSideColor={() => 'rgba(255, 255, 255, 0.1)'}  // Lighter side color
-                polygonStrokeColor={() => 'rgba(255, 255, 255, 0.3)'} // More subtle stroke
+                polygonCapColor={d => d === hoverD ? 'var(--color-primary)' : 'var(--color-neutral)'}                polygonSideColor={() => '#1F2937'} // Darker gray for sides
+                polygonStrokeColor={() => '#4B5563'} // Medium gray for borders
+                polygonLabel={({ properties: p }) => `${p.ADMIN} (${p.ISO_A2})`}
                 backgroundColor="rgba(0,0,0,0)"
+                atmosphereColor="rgba(255,255,255,0.1)"
                 onPolygonHover={setHoverD}
-                polygonsTransitionDuration={300}
               />
             </div>
           </div>
