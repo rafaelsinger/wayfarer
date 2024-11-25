@@ -17,7 +17,7 @@ const Landing = () => {
     
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary to-secondary overflow-auto">
-      <nav className="p-6">
+      <nav className="p-6 relative z-10">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold text-white">Wayfarer</h1>
           <div className="space-x-4">

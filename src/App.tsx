@@ -1,12 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Globe from 'react-globe.gl'
 import Landing from './components/Landing'
+import Login from './components/Login'
+import Register from './components/Register'
 import countriesGeoJson from './data/countries'
 import './App.css'
-
-// Skeleton components
-const Login = () => <div>Login Page</div>
-const Register = () => <div>Register Page</div>
 
 const Home = () => {
   return (
