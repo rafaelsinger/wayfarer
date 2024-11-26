@@ -8,6 +8,7 @@ const Home = () => {
   const [hoverD, setHoverD] = useState()
   const [searchQuery, setSearchQuery] = useState('')
   const [autoRotate, setAutoRotate] = useState(true)
+  const [selectedCountries, setSelectedCountries] = useState<Set<string>>(new Set())
 
   useEffect(() => {
     if (globeEl.current) {
@@ -17,6 +18,12 @@ const Home = () => {
       globeEl.current.pointOfView({ lat: 20, lng: 0, altitude: 2.5 })
     }
   }, [])
+
+  useEffect(() => {
+    if (globeEl.current) {
+      globeEl.current.controls().autoRotate = autoRotate
+    }
+  }, [autoRotate])
 
   // Handle country search
   const handleSearch = (e: React.FormEvent) => {
@@ -46,6 +53,21 @@ const Home = () => {
     if (globeEl.current) {
       globeEl.current.controls().autoRotate = polygon === null && autoRotate
     }
+  }
+
+  const handleClick = (polygon: any) => {
+    if (!polygon) return
+    
+    const countryId = polygon.properties.ISO_A2
+    setSelectedCountries(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(countryId)) {
+        newSet.delete(countryId)
+      } else {
+        newSet.add(countryId)
+      }
+      return newSet
+    })
   }
 
   return (
@@ -93,12 +115,19 @@ const Home = () => {
           globeImageUrl="//unpkg.com/three-globe/example/img/earth-day.jpg"
           polygonsData={countriesGeoJson.features}
           polygonAltitude={0.01}
-          polygonCapColor={d => d === hoverD ? '#60A5FA' : '#929fb3'}  // Base color
-          polygonSideColor={d => d === hoverD ? '#60A5FA' : '#1F2937'} // Side color
-          polygonStrokeColor={d => d === hoverD ? '#60A5FA' : '#4B5563'} // Stroke color
+          polygonCapColor={({ properties }) => 
+            selectedCountries.has(properties.ISO_A2)
+              ? '#3198dd' // Selected country
+              : hoverD?.properties === properties
+                ? '#f49d10' // Hovered country
+                : '#929fb3' // Default color
+          }
+          polygonSideColor={() => '#1F2937'} // Darker gray for sides
+          polygonStrokeColor={() => '#4B5563'} // Medium gray for borders
           backgroundColor="rgba(0,0,0,0)"
           atmosphereColor="#4B5563"
           onPolygonHover={handleHover}
+          onPolygonClick={handleClick}
         />
       </div>
     </div>
